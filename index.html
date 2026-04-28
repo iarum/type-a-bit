@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>წერე ცოტა | ქართული ბეჭდვა</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div id="app">
+        <header id="header">
+            <div class="logo">წერე ცოტა</div>
+            <div class="header-right">
+            <div id="stats" class="hidden">
+                <span id="wpm">0 სიტყვა წუთში</span>
+                <span id="accuracy">100% სიზუსტე</span>
+                <span id="timer" class="hidden">30</span>
+            </div>
+            <div class="config-controls">
+                <div id="time-options" class="options-group">
+                    <button class="option-btn" data-value="15">15</button>
+                    <button class="option-btn active" data-value="30">30</button>
+                    <button class="option-btn" data-value="60">60</button>
+                </div>
+            </div>
+            <button id="sound-toggle" title="ხმის ჩართვა/გამორთვა">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-on"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-off hidden"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            </button>
+            <button id="theme-toggle" title="თემის შეცვლა">                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+            </div>        </header>
+
+        <main id="game-container">
+            <div id="words-container"></div>
+            <input type="text" id="input-field" autofocus autocomplete="off">
+        </main>
+
+        <footer id="footer">
+            <div class="hint">დააჭირეთ ნებისმიერ ღილაკს დასაწყებად</div>
+            <div class="controls">
+                <button id="restart-btn" title="თავიდან დაწყება (Tab + Enter)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><polyline points="21 3 21 8 16 8"></polyline></svg>
+                </button>
+            </div>
+        </footer>
+
+        <div id="result-screen" class="hidden">
+            <div class="result-content">
+                <h2>შედეგი</h2>
+                <div class="stats-grid">
+                    <div class="stat-item primary">
+                        <span class="label">სწორი სიტყვები</span>
+                        <span id="final-words" class="value">0</span>
+                    </div>
+                    <div class="secondary-stats">
+                        <div class="stat-item secondary">
+                            <span class="label">სიტყვა წუთში</span>
+                            <span id="final-wpm" class="value">0</span>
+                        </div>
+                        <div class="stat-item secondary">
+                            <span class="label">რეკორდი</span>
+                            <span id="personal-best" class="value">0</span>
+                        </div>
+                        <div class="stat-item secondary">
+                            <span class="label">სიზუსტე</span>
+                            <span id="final-accuracy" class="value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="retry-btn">თავიდან ცდა</button>
+            </div>
+        </div>
+    </div>
+    <script src="content.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
