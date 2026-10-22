@@ -28,6 +28,7 @@ body {
     color: var(--text-color);
     font-family: var(--font-main);
     height: 100vh;
+    height: var(--app-height, 100dvh);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,6 +55,7 @@ body {
     display: grid;
     grid-template-rows: 80px 1fr 100px;
     height: 100vh;
+    height: var(--app-height, 100dvh);
     gap: 1rem;
 }
 
@@ -103,6 +105,11 @@ header {
     font-weight: 700;
 }
 
+button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
 #theme-toggle, #sound-toggle {
     background: none;
     border: none;
@@ -136,8 +143,7 @@ header {
 
 #stats {
     display: flex;
-    gap: 2rem;
-    font-size: 1.2rem;
+    align-items: center;
 }
 
 .hidden {
@@ -192,16 +198,45 @@ header {
     animation: blink 1s infinite;
 }
 
+.letter.current-end::after {
+    content: '';
+    position: absolute;
+    height: 1.2em;
+    width: 3px;
+    background-color: var(--caret-color);
+    animation: blink 1s infinite;
+}
+
+.letter.extra {
+    opacity: 0.6;
+}
+
+.word.error {
+    text-decoration: underline;
+    text-decoration-color: var(--error-color);
+    text-underline-offset: 0.25em;
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
+/* Invisible input laid over the words, so tapping the text opens the keyboard */
 #input-field {
-    position: fixed;
-    top: -100px;
-    left: -100px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font-size: 16px; /* below 16px iOS zooms in on focus */
+    cursor: default;
+    z-index: 1;
 }
 
 footer {
@@ -257,48 +292,35 @@ footer {
 
 .stats-grid {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5rem;
     margin-bottom: 3rem;
 }
 
-.stat-item.primary {
+.stat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.stat-item.primary .label {
+.stat-item .label {
     font-size: 1.2rem;
     color: var(--sub-color);
     margin-bottom: 0.5rem;
 }
 
-.stat-item.primary .value {
+.stat-item .value {
     font-size: 6rem;
     font-weight: 800;
     color: var(--main-color);
     line-height: 1;
 }
 
-.secondary-stats {
-    display: flex;
-    gap: 4rem;
-    justify-content: center;
-}
-
-.stat-item.secondary .label {
-    font-size: 0.9rem;
+.stat-item .record {
+    margin-top: 0.75rem;
+    font-size: 1rem;
     color: var(--sub-color);
-    margin-bottom: 0.3rem;
-    display: block;
-}
-
-.stat-item.secondary .value {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--main-color);
 }
 
 #retry-btn {
@@ -340,31 +362,43 @@ footer {
     .header-right {
         width: 100%;
         justify-content: space-between;
-        gap: 1rem;
+        flex-wrap: wrap;
+        gap: 0.75rem 1rem;
     }
 
     #stats {
-        gap: 1rem;
-        font-size: 1rem;
+        order: -1;
+        width: 100%;
+        justify-content: center;
+    }
+
+    #timer {
+        margin-left: 0;
+    }
+
+    .config-controls {
+        margin-right: auto;
+    }
+
+    #theme-toggle, #sound-toggle, .controls button {
+        padding: 8px; /* bigger touch targets */
     }
 
     #game-container {
         font-size: 1.6rem; /* Smaller font for mobile */
         height: 8em; /* Show more lines since screen is narrow */
-        align-items: center;
     }
 
-    .secondary-stats {
-        gap: 1.5rem;
-        flex-wrap: wrap;
+    .stats-grid {
+        gap: 2.5rem;
     }
 
-    .stat-item.primary .value {
+    .stat-item .label {
+        font-size: 1rem;
+    }
+
+    .stat-item .value {
         font-size: 4rem;
-    }
-
-    .stat-item.secondary .value {
-        font-size: 1.5rem;
     }
     
     .config-controls {
@@ -372,12 +406,28 @@ footer {
     }
 }
 
-@media (max-height: 500px) {
-    /* Landscape mode or small screens with keyboard */
-    header { display: none; }
-    footer { display: none; }
-    #app { grid-template-rows: 1fr; }
+/* Landscape mode or on-screen keyboard open (toggled from app.js) */
+body.compact #app {
+    grid-template-rows: auto 1fr;
+    padding: 0.5rem 1rem;
+    gap: 0.25rem;
 }
+body.compact header { flex-direction: row; padding: 0; }
+body.compact .logo,
+body.compact .config-controls,
+body.compact #sound-toggle,
+body.compact #theme-toggle,
+body.compact footer { display: none; }
+body.compact .header-right { justify-content: center; }
+body.compact #stats { order: 0; }
+body.compact #game-container {
+    font-size: 1.4rem;
+    height: 6em;
+    margin: 0;
+}
+body.compact .stat-item .value { font-size: 3rem; }
+body.compact .stats-grid { gap: 1rem; margin-bottom: 1.5rem; }
+body.compact .result-content h2 { margin-bottom: 0.75rem; }
 
 .shake { animation: shake 0.2s; }
 @keyframes shake {
