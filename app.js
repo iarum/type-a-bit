@@ -63,7 +63,7 @@ document.documentElement.setAttribute('data-theme', currentTheme);
 updateSoundUI();
 
 if (window.matchMedia('(pointer: coarse)').matches) {
-    hint.innerText = 'დასაწყებად შეეხე ტექსტს';
+    hint.innerText = 'დასაწყებად დაიწყე წერა';
 }
 
 // Fit the layout to the visible area, above the on-screen keyboard
